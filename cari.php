@@ -20,9 +20,7 @@ function display($listbuku)
        echo "<tr><td style='text-align: center;'>$row[0]</td><td> $row[1] </td><td style='text-align: center;'><a href='./pinjam/pinjam.php?fitur=add&idbuku=$row[0]&judul=$row[1]'>pinjam</td></tr>";
     }
     echo "</table>";
-    echo "<br><form method='get' action='../index.php'>";
-    echo "<button type='submit'>Kembali ke Homepage</button>";
-    echo "</form>";
+
 
 }
 ?>

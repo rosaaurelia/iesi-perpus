@@ -3,7 +3,8 @@ include "read-cart.php";
 include "add-cart.php";
 include "delete-cart.php";
 include "save-cart.php";
-include "display-cart.php";
+
+include "return-book.php";
 // include "cari.php";
 
 $fitur = $_GET['fitur'];
@@ -19,13 +20,18 @@ switch ($fitur) {
         delete($idbuku);
         header('location:pinjam.php?fitur=read');
         break;
-    case 'display':
-        display();
+    case 'return': // Handle Kembalikan Buku
+        returnBook();
         break;
+    case 'returnbook';
+    if (isset($_GET['idbuku'])) {
+        $idbuku = $_GET['idbuku'];
+        returnBookById($idbuku);
+    }
+    break;
     case 'save':
         save();
-        display($cart);
-        header('location:pinjam.php?fitur=display');
+        header('location:pinjam.php?fitur=return');
         break;
     case 'read':
     default:
