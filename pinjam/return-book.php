@@ -1,61 +1,34 @@
 <?php
 function returnBook()
 {
-    $cookie_name = "cart";
-    $cart = json_decode($_COOKIE[$cookie_name], true);
+    $link = new mysqli("127.0.0.1", "root", "", "perpus");
 
-    echo "<h2>Buku yang Akan Dikembalikan</h2>";
-    echo "<table border='1'>";
-    echo "<tr><th>ID</th><th>Judul Buku</th><th>Aksi</th></tr>";
+    $queri_pinjam = "SELECT buku.id, buku.judul FROM peminjaman
+                    JOIN dipinjam ON peminjaman.id = dipinjam.peminjaman_id
+                    JOIN buku ON dipinjam.buku_id = buku.id";
 
-    foreach ($cart as $index => $item) {
-        $idbuku = $item[0];
-        $judul = $item[1];
-        echo "<tr><td>{$idbuku}</td><td>{$judul}</td><td>";
-        echo "<a href='./pinjam.php?fitur=returnbook&idbuku={$idbuku}' onclick='return confirm(\"Apakah Anda yakin ingin mengembalikan buku ini?\")'>Kembalikan</a>";
-        echo "</td></tr>";
-    }
+    $stmt = $link->prepare($queri_pinjam);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
 
-    echo "</table>";
-    echo "<br><a href='../fitur.php'>Pencarian Buku</a> <br>";
-    echo "<form method='get' action='../index.php'>";
-    echo "<button type='submit'>Kembali ke Homepage</button>";
-    echo "</form>";
-}
-
-function returnBookById($idbuku)
-{
-    $cookie_name = "cart";
-    $cart = json_decode($_COOKIE[$cookie_name], true);
-
-    // Cari buku dengan idbuku yang sesuai dan hapus dari keranjang
-    foreach ($cart as $index => $item) {
-        if ($item[0] == $idbuku) {
-            array_splice($cart, $index, 1);
-            break;
+    if (!empty($data)){
+        echo "<table border='1'>";
+        echo "<tr><td>No</td><td>ID Buku</td><td>Judul Buku</td><td>Tanggal Peminjaman</td></td></tr>";
+        $i = 1;
+        foreach ($data as $row) {
+            echo "<tr>";
+            echo "<td>$i</td><td>{$row['id']}</td><td>{$row['judul']}</td><td><a href='../return.php?id={$row['id']}'>Kembalikan</a></td></tr>";
+            $i++;
         }
+        echo "</table>  <br>";
+    } else {
+        echo "Tidak ada buku yang sedang dipinjam<br><br>";
     }
+    
 
-    // Simpan kembali keranjang yang sudah diperbarui
-    setcookie($cookie_name, json_encode($cart));
-
-    // Tampilkan kembali tabel buku yang tersisa setelah menghapus
-    echo "<h2>Buku yang Akan Dikembalikan</h2>";
-    echo "<table border='1'>";
-    echo "<tr><th>ID</th><th>Judul Buku</th><th>Aksi</th></tr>";
-
-    foreach ($cart as $item) {
-        $idbuku = $item[0];
-        $judul = $item[1];
-        echo "<tr><td>{$idbuku}</td><td>{$judul}</td><td>";
-        echo "<a href='./pinjam.php?fitur=returnbook&idbuku={$idbuku}' onclick='return confirm(\"Apakah Anda yakin ingin mengembalikan buku ini?\")'>Kembalikan</a>";
-        echo "</td></tr>";
-    }
-
-    echo "</table>";
-    echo "<br><a href='../fitur.php'>Pencarian Buku</a> <br>";
-    echo "<form method='get' action='../index.php'>";
+    echo "<a href='../fitur.php'>CARI</a> <br>";
+    echo "<a href='../fitur.php'>KEMBALI</a><br>";
     echo "<button type='submit'>Kembali ke Homepage</button>";
-    echo "</form>";
 }
 ?>

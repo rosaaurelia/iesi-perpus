@@ -20,15 +20,9 @@ switch ($fitur) {
         delete($idbuku);
         header('location:pinjam.php?fitur=read');
         break;
-    case 'return': // Handle Kembalikan Buku
+    case 'return':
         returnBook();
         break;
-    case 'returnbook';
-    if (isset($_GET['idbuku'])) {
-        $idbuku = $_GET['idbuku'];
-        returnBookById($idbuku);
-    }
-    break;
     case 'save':
         save();
         header('location:pinjam.php?fitur=return');
