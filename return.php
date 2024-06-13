@@ -16,10 +16,6 @@ if(isset($_GET['id'])) {
     $stmt_insert->bind_param("i", $id_buku);
     $stmt_insert->execute();
 
-
-    echo "Buku telah berhasil dikembalikan.<br><br>";
-
-
     echo "<a href='pinjam/pinjam.php?fitur=return'>KEMBALI</a><br>";
     echo "<a href='./index.php'>KEMBALI KE HOMEPAGE</a>";
 } else {

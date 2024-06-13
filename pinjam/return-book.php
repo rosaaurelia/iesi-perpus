@@ -14,7 +14,7 @@ function returnBook()
 
     if (!empty($data)){
         echo "<table border='1'>";
-        echo "<tr><td>No</td><td>ID Buku</td><td>Judul Buku</td><td>Tanggal Peminjaman</td></td></tr>";
+        echo "<tr><td>No</td><td>ID Buku</td><td>Judul</td><td>Kembalikan</td></td></tr>";
         $i = 1;
         foreach ($data as $row) {
             echo "<tr>";

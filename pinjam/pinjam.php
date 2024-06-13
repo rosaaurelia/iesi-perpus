@@ -20,12 +20,12 @@ switch ($fitur) {
         delete($idbuku);
         header('location:pinjam.php?fitur=read');
         break;
-    case 'return':
-        returnBook();
-        break;
     case 'save':
         save();
         header('location:pinjam.php?fitur=return');
+        break;
+    case 'return':
+        returnBook();
         break;
     case 'read':
     default:
